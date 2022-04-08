@@ -40,6 +40,7 @@ public:
 
 	bool GetInputLocked() { return isInputLocked; }
 
-	FVector GetCameraLocation() { return CameraComponent->GetRelativeLocation(); }
+	FVector GetCameraLocation() { return CameraComponent->GetComponentLocation(); }
+	FRotator GetCameraRotation() { return CameraComponent->GetComponentRotation(); }
 
 };

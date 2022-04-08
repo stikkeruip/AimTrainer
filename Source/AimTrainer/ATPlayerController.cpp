@@ -58,11 +58,12 @@ void AATPlayerController::Shoot()
 	FHitResult HitResult;
 	FCollisionQueryParams TraceParams;
 	
-	GetWorld()->LineTraceSingleByChannel(HitResult, CharacterBase->GetCameraLocation(),
-		CharacterBase->GetCameraLocation() + FVector(2000., 2000., 2000.), ECC_WorldStatic, TraceParams);
+	FVector LineStart = CharacterBase->GetCameraLocation();
+	FVector LineEnd = LineStart + CharacterBase->GetCameraRotation().Vector() * 2000.0f;
 
-	DrawDebugLine(GetWorld(), CharacterBase->GetCameraLocation(),
-		CharacterBase->GetCameraLocation() + FVector(2000., 2000., 2000.), FColor::Blue, true, 4, 0, 1);
+	GetWorld()->LineTraceSingleByChannel(HitResult, LineStart + FVector(50., 0., 0.), LineEnd, ECC_Pawn, TraceParams);
+
+	DrawDebugLine(GetWorld(), LineStart + FVector(50., 0., 0.), LineEnd, FColor::Blue, false, 3, 0, 1);
 
 	FVector Loc = HitResult.Location;
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *Loc.ToString());
