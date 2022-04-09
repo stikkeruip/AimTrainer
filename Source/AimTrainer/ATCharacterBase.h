@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ATPlayerController.h"
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -27,6 +28,9 @@ protected:
 	UPROPERTY(EditAnywhere)
     UCameraComponent* CameraComponent;
 
+	UFUNCTION(BlueprintCallable)
+	AATPlayerController* GetATPlayerController() { return Cast<AATPlayerController>(GetController()); }
+
 	bool isInputLocked = false;
 
 public:	
@@ -41,6 +45,9 @@ public:
 	bool GetInputLocked() { return isInputLocked; }
 
 	FVector GetCameraLocation() { return CameraComponent->GetComponentLocation(); }
+	
 	FRotator GetCameraRotation() { return CameraComponent->GetComponentRotation(); }
+	
+	FVector GetCameraForward() { return CameraComponent->GetForwardVector(); }
 
 };

@@ -40,10 +40,10 @@ protected:
 
 	bool CheckCharacterLocked();
 
-	UPROPERTY(EditAnywhere, Category = "Look")
+	UPROPERTY(EditAnywhere, Category = "Look", BlueprintReadWrite)
 	float BaseLookYawRate = 90.0f;
 
-	UPROPERTY(EditAnywhere, Category = "Look")
+	UPROPERTY(EditAnywhere, Category = "Look", BlueprintReadWrite)
 	float BaseLookPitchRate = 90.0f;
 
 	UPROPERTY()
