@@ -50,4 +50,8 @@ protected:
 	
 	UPROPERTY()
 	AATCharacterBase* CharacterBase = nullptr;
+
+public:
+
+	
 };

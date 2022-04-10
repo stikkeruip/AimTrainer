@@ -5,6 +5,7 @@
 
 #include "AimTrainerGameModeBase.h"
 #include "ATCharacterBase.h"
+#include "GunBase.h"
 
 #include "GameFramework/Character.h"
 
@@ -61,6 +62,8 @@ void AATPlayerController::Shoot()
 {
 	if(GameModeRef->GetCurrentGameState() != EGameState::Playing)
 		return;
+
+	AGunBase::GunShot();
 	
 	FHitResult HitResult;
 	FCollisionQueryParams TraceParams;
