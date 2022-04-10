@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "ATCharacterBase.generated.h"
 
+class AAimTrainerGameModeBase;
 UCLASS()
 class AIMTRAINER_API AATCharacterBase : public ACharacter
 {
@@ -50,4 +51,7 @@ public:
 	
 	FVector GetCameraForward() { return CameraComponent->GetForwardVector(); }
 
+	void EnteredRange();
+
+	AAimTrainerGameModeBase* GameModeRef = nullptr;
 };

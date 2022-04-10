@@ -2,4 +2,30 @@
 
 
 #include "AimTrainerGameModeBase.h"
+#include "ATGameWidget.h"
+#include "Kismet/GameplayStatics.h"
+
+void AAimTrainerGameModeBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	CurrentGameState = EGameState::NONE;
+}
+
+void AAimTrainerGameModeBase::DisplayCountdown()
+{
+	if(!GameWidgetClass)
+		return;
+	
+	PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	GameWidget = CreateWidget<UATGameWidget>(PC, GameWidgetClass);
+	GameWidget->AddToViewport();
+	GameWidget->StartCountdown(GameDuration, this);
+}
+
+void AAimTrainerGameModeBase::StartGame()
+{
+	CurrentGameState = EGameState::Playing;
+}
+
 

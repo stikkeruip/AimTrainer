@@ -6,7 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "ATPlayerController.generated.h"
 
-class AATCharacterBase;
+class AATCharacterBase; class AAimTrainerGameModeBase;
 
 /**
  * 
@@ -46,6 +46,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Look", BlueprintReadWrite)
 	float BaseLookPitchRate = 90.0f;
 
+	AAimTrainerGameModeBase* GameModeRef;
+	
 	UPROPERTY()
 	AATCharacterBase* CharacterBase = nullptr;
 };

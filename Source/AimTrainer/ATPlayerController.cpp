@@ -2,6 +2,8 @@
 
 
 #include "ATPlayerController.h"
+
+#include "AimTrainerGameModeBase.h"
 #include "ATCharacterBase.h"
 
 #include "GameFramework/Character.h"
@@ -24,6 +26,8 @@ void AATPlayerController::OnUnPossess()
 void AATPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GameModeRef = Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode());
 
 	if (InputComponent)
 	{
@@ -55,6 +59,9 @@ void AATPlayerController::DisableLock()
 
 void AATPlayerController::Shoot()
 {
+	if(GameModeRef->GetCurrentGameState() != EGameState::Playing)
+		return;
+	
 	FHitResult HitResult;
 	FCollisionQueryParams TraceParams;
 	

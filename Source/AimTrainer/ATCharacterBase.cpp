@@ -3,6 +3,8 @@
 
 #include "ATCharacterBase.h"
 
+#include "AimTrainerGameModeBase.h"
+
 // Sets default values
 AATCharacterBase::AATCharacterBase()
 {
@@ -21,6 +23,8 @@ AATCharacterBase::AATCharacterBase()
 void AATCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GameModeRef = Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode());
 }
 
 // Called every frame
@@ -35,5 +39,11 @@ void AATCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AATCharacterBase::EnteredRange()
+{
+	GameModeRef->SetCurrentGameState(EGameState::Waiting);
+	GameModeRef->DisplayCountdown();
 }
 

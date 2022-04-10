@@ -2,7 +2,7 @@
 
 
 #include "MovementLocker.h"
-
+#include "AimTrainerGameModeBase.h"
 #include "ATCharacterBase.h"
 
 #include "Kismet/GameplayStatics.h"
@@ -47,7 +47,10 @@ void AMovementLocker::StopInput(UPrimitiveComponent* OverlappedComp, AActor* Oth
 			AActor* SpawnedTarget = GetWorld()->SpawnActor(TargetsToSpawn, &Position, &Rotation); //3000 -1500, -1500 3000, 200 1500
 			SpawnedTargets.Add(SpawnedTarget);
 		}
+		CharacterBase->EnteredRange();
+		
 	}
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AAimTrainerGameModeBase::StartGame, GameDuration, false);
 }
 
 // Called every frame
