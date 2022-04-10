@@ -30,7 +30,7 @@ protected:
 	TSubclassOf<AActor> TargetsToSpawn;
 
 	UPROPERTY(EditAnywhere, Category = "Game Details")
-	float GameDuration = 60.f;
+	float GameDuration = 3.f;
 
 	UFUNCTION()
 	void StopInput(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,

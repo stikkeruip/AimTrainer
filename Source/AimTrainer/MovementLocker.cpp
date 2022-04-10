@@ -47,10 +47,10 @@ void AMovementLocker::StopInput(UPrimitiveComponent* OverlappedComp, AActor* Oth
 			AActor* SpawnedTarget = GetWorld()->SpawnActor(TargetsToSpawn, &Position, &Rotation); //3000 -1500, -1500 3000, 200 1500
 			SpawnedTargets.Add(SpawnedTarget);
 		}
+		Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode())->SetGameDuration(GameDuration);
 		CharacterBase->EnteredRange();
-		
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode()), &AAimTrainerGameModeBase::StartGame, GameDuration, false);
 	}
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AAimTrainerGameModeBase::StartGame, GameDuration, false);
 }
 
 // Called every frame
