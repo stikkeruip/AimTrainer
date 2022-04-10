@@ -36,6 +36,8 @@ public:
 
 	void SetGameDuration(float value) { GameDuration = value;}
 
+	void AimRangeDone();
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "States")
 	EGameState CurrentGameState = EGameState::NONE;

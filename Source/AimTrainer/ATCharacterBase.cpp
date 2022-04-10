@@ -4,6 +4,7 @@
 #include "ATCharacterBase.h"
 
 #include "AimTrainerGameModeBase.h"
+#include "MovementLocker.h"
 
 // Sets default values
 AATCharacterBase::AATCharacterBase()
@@ -41,9 +42,15 @@ void AATCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 }
 
-void AATCharacterBase::EnteredRange()
+void AATCharacterBase::EnteredRange(AMovementLocker* Range)
 {
+	CurrentRange = Range;
 	GameModeRef->SetCurrentGameState(EGameState::Waiting);
 	GameModeRef->DisplayCountdown();
+}
+
+void AATCharacterBase::TargetShot(AActor* Target)
+{
+	CurrentRange->DestroyTarget(Target);
 }
 

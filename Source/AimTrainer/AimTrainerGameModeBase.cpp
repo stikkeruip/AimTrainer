@@ -28,4 +28,12 @@ void AAimTrainerGameModeBase::StartGame()
 	CurrentGameState = EGameState::Playing;
 }
 
+void AAimTrainerGameModeBase::AimRangeDone()
+{
+	GameWidget->LevelComplete();
+	FInputModeUIOnly InputMode;
+	PC->SetInputMode(InputMode);
+	PC->SetShowMouseCursor(true);
+}
+
 

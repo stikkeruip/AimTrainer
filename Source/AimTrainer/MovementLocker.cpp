@@ -48,7 +48,7 @@ void AMovementLocker::StopInput(UPrimitiveComponent* OverlappedComp, AActor* Oth
 			SpawnedTargets.Add(SpawnedTarget);
 		}
 		Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode())->SetGameDuration(GameDuration);
-		CharacterBase->EnteredRange();
+		CharacterBase->EnteredRange(this);
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode()), &AAimTrainerGameModeBase::StartGame, GameDuration, false);
 	}
 }
@@ -58,5 +58,18 @@ void AMovementLocker::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AMovementLocker::DestroyTarget(AActor* Target)
+{
+	for (auto i : SpawnedTargets)
+	{
+		if(Target == i)
+		{
+			SpawnedTargets.Remove(i);
+		}
+	}
+	if(SpawnedTargets.Num() == 0)
+		Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode())->AimRangeDone();
 }
 

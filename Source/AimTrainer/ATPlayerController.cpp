@@ -74,6 +74,7 @@ void AATPlayerController::Shoot()
 
 	if(HitActor && HitActor->ActorHasTag("Target"))
 	{
+		CharacterBase->TargetShot(HitActor);
 		HitActor->Destroy();
 	}
 }

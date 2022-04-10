@@ -9,7 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "ATCharacterBase.generated.h"
 
-class AAimTrainerGameModeBase;
+class AAimTrainerGameModeBase; class AMovementLocker;
 UCLASS()
 class AIMTRAINER_API AATCharacterBase : public ACharacter
 {
@@ -32,6 +32,8 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	AATPlayerController* GetATPlayerController() { return Cast<AATPlayerController>(GetController()); }
 
+	AMovementLocker* CurrentRange = nullptr;
+
 	bool isInputLocked = false;
 
 public:	
@@ -51,7 +53,9 @@ public:
 	
 	FVector GetCameraForward() { return CameraComponent->GetForwardVector(); }
 
-	void EnteredRange();
+	void EnteredRange(AMovementLocker* Range);
+
+	void TargetShot(AActor* Target);
 
 	AAimTrainerGameModeBase* GameModeRef = nullptr;
 };
