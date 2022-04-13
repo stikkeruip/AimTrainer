@@ -4,6 +4,7 @@
 #include "ATCharacterBase.h"
 
 #include "AimTrainerGameModeBase.h"
+#include "GunBase.h"
 #include "MovementLocker.h"
 
 // Sets default values
@@ -52,5 +53,27 @@ void AATCharacterBase::EnteredRange(AMovementLocker* Range)
 void AATCharacterBase::TargetShot(AActor* Target)
 {
 	CurrentRange->DestroyTarget(Target);
+}
+
+void AATCharacterBase::Shoot()
+{
+	if(GameModeRef->GetCurrentGameState() != EGameState::Playing)
+		return;
+	
+	FHitResult HitResult;
+	FCollisionQueryParams TraceParams;
+	
+	FVector LineStart = GetCameraLocation() + GetCameraForward() * 50;
+	FVector LineEnd = LineStart + GetCameraRotation().Vector() * 4000.0f;
+
+	GetWorld()->LineTraceSingleByChannel(HitResult, LineStart, LineEnd, ECC_Pawn, TraceParams);
+
+	AActor* HitActor = HitResult.GetActor();
+
+	if(HitActor && HitActor->ActorHasTag("Target"))
+	{
+		TargetShot(HitActor);
+		HitActor->Destroy();
+	}
 }
 

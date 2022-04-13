@@ -57,5 +57,7 @@ public:
 
 	void TargetShot(AActor* Target);
 
+	void Shoot();
+
 	AAimTrainerGameModeBase* GameModeRef = nullptr;
 };

@@ -16,7 +16,7 @@ public:
 	AGunBase();
 
 	UFUNCTION(BlueprintImplementableEvent)
-	static void GunShot();
+	void GunShot();
 
 protected:
 	// Called when the game starts or when spawned

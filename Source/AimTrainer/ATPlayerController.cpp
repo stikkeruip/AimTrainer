@@ -5,7 +5,6 @@
 
 #include "AimTrainerGameModeBase.h"
 #include "ATCharacterBase.h"
-#include "GunBase.h"
 
 #include "GameFramework/Character.h"
 
@@ -34,7 +33,7 @@ void AATPlayerController::BeginPlay()
 	{
 		InputComponent->BindAction("Jump", EInputEvent::IE_Pressed, this, &AATPlayerController::OnJumpAction);
 		InputComponent->BindAction("EnableMove", EInputEvent::IE_Pressed, this, &AATPlayerController::DisableLock);
-		InputComponent->BindAction("Shoot", EInputEvent::IE_Pressed, this, &AATPlayerController::Shoot);
+		InputComponent->BindAction("Shoot", EInputEvent::IE_Pressed, CharacterBase, &AATCharacterBase::Shoot);
 		InputComponent->BindAxis("Forward", this, &AATPlayerController::MoveForward);
 		InputComponent->BindAxis("Right", this, &AATPlayerController::MoveRight);
 		InputComponent->BindAxis("Yaw", this, &AATPlayerController::LookYaw);
@@ -55,30 +54,6 @@ void AATPlayerController::DisableLock()
 	if(CharacterBase)
 	{
 		CharacterBase->SetInputLocked(false);
-	}
-}
-
-void AATPlayerController::Shoot()
-{
-	if(GameModeRef->GetCurrentGameState() != EGameState::Playing)
-		return;
-
-	AGunBase::GunShot();
-	
-	FHitResult HitResult;
-	FCollisionQueryParams TraceParams;
-	
-	FVector LineStart = CharacterBase->GetCameraLocation() + CharacterBase->GetCameraForward() * 50;
-	FVector LineEnd = LineStart + CharacterBase->GetCameraRotation().Vector() * 4000.0f;
-
-	GetWorld()->LineTraceSingleByChannel(HitResult, LineStart, LineEnd, ECC_Pawn, TraceParams);
-
-	AActor* HitActor = HitResult.GetActor();
-
-	if(HitActor && HitActor->ActorHasTag("Target"))
-	{
-		CharacterBase->TargetShot(HitActor);
-		HitActor->Destroy();
 	}
 }
 
