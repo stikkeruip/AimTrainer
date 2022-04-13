@@ -28,6 +28,8 @@ protected:
 
 	void DisableLock();
 
+	void Shoot();
+
 	void MoveForward(float value);
 	
 	void MoveRight(float value);

@@ -33,7 +33,7 @@ void AATPlayerController::BeginPlay()
 	{
 		InputComponent->BindAction("Jump", EInputEvent::IE_Pressed, this, &AATPlayerController::OnJumpAction);
 		InputComponent->BindAction("EnableMove", EInputEvent::IE_Pressed, this, &AATPlayerController::DisableLock);
-		InputComponent->BindAction("Shoot", EInputEvent::IE_Pressed, CharacterBase, &AATCharacterBase::Shoot);
+		InputComponent->BindAction("Shoot", EInputEvent::IE_Pressed, this, &AATPlayerController::Shoot);
 		InputComponent->BindAxis("Forward", this, &AATPlayerController::MoveForward);
 		InputComponent->BindAxis("Right", this, &AATPlayerController::MoveRight);
 		InputComponent->BindAxis("Yaw", this, &AATPlayerController::LookYaw);
@@ -55,6 +55,11 @@ void AATPlayerController::DisableLock()
 	{
 		CharacterBase->SetInputLocked(false);
 	}
+}
+
+void AATPlayerController::Shoot()
+{
+	CharacterBase->Shoot();
 }
 
 void AATPlayerController::MoveForward(float value)
