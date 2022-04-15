@@ -59,6 +59,8 @@ void AATCharacterBase::Shoot()
 {
 	if(GameModeRef->GetCurrentGameState() != EGameState::Playing)
 		return;
+
+	GunShot();
 	
 	FHitResult HitResult;
 	FCollisionQueryParams TraceParams;

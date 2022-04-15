@@ -44,7 +44,7 @@ void AMovementLocker::StopInput(UPrimitiveComponent* OverlappedComp, AActor* Oth
 			FVector Position = FVector(xy, xy, z);
 			FRotator Rotation = FRotator(0.f, 0.f, 0.f);
 			
-			AActor* SpawnedTarget = GetWorld()->SpawnActor(TargetsToSpawn, &Position, &Rotation); //3000 -1500, -1500 3000, 200 1500
+			AActor* SpawnedTarget = GetWorld()->SpawnActor(TargetsToSpawn, &Position, &Rotation);
 			SpawnedTargets.Add(SpawnedTarget);
 		}
 		Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode())->SetGameDuration(GameDuration);
