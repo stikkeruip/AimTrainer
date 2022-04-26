@@ -4,14 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "ATPlayerController.h"
+#include "PowerUpInterface.h"
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "ATCharacterBase.generated.h"
 
-class AAimTrainerGameModeBase; class AMovementLocker;
+class AAimTrainerGameModeBase; class AMovementLocker; class AGunBase;
 UCLASS()
-class AIMTRAINER_API AATCharacterBase : public ACharacter
+class AIMTRAINER_API AATCharacterBase : public ACharacter, public IPowerUpInterface
 {
 	GENERATED_BODY()
 
@@ -35,9 +36,26 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void GunShot();
 
+	UPROPERTY(BlueprintReadOnly)
+	AActor* HitActor = nullptr;
+
 	AMovementLocker* CurrentRange = nullptr;
 
 	bool isInputLocked = false;
+
+	void ApplyEffect_Implementation(EEffectType EffectType, bool bIsBuff) override;
+
+	void EndEffect();
+
+	bool bIsUnderEffect = false;
+
+	bool bIsEffectBuff = false;
+
+	float DefaultEffectCooldown = 3.;
+
+	float EffectCooldown = 0.;
+
+	EEffectType CurrentEffect = EEffectType::NONE;
 
 public:	
 	// Called every frame
@@ -63,4 +81,7 @@ public:
 	void Shoot();
 
 	AAimTrainerGameModeBase* GameModeRef = nullptr;
+
+	UPROPERTY(BlueprintReadWrite)
+	AGunBase* GunBaseRef;
 };

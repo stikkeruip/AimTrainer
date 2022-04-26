@@ -6,6 +6,7 @@
 #include "AimTrainerGameModeBase.h"
 #include "GunBase.h"
 #include "MovementLocker.h"
+#include "GunBase.h"
 
 // Sets default values
 AATCharacterBase::AATCharacterBase()
@@ -29,10 +30,57 @@ void AATCharacterBase::BeginPlay()
 	GameModeRef = Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode());
 }
 
+void AATCharacterBase::ApplyEffect_Implementation(EEffectType EffectType, bool bIsBuff)
+{
+	if(bIsUnderEffect) return;
+
+	CurrentEffect = EffectType;
+	bIsUnderEffect = true;
+	bIsEffectBuff = bIsBuff;
+
+	switch (CurrentEffect)
+	{
+		case EEffectType::POWER:
+			if(bIsEffectBuff)
+				GunBaseRef->Damage *= 2;
+			break;
+		default:
+			break;
+	}
+}
+
+void AATCharacterBase::EndEffect()
+{
+	bIsUnderEffect = false;
+	switch (CurrentEffect)
+	{
+		case EEffectType::POWER:
+			if(bIsEffectBuff)
+				GunBaseRef->Damage /= 2;
+			break;
+		default:
+			break;
+	}
+}
+
 // Called every frame
 void AATCharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if(bIsUnderEffect)
+	{
+		if(EffectCooldown > 0)
+		{
+			EffectCooldown -= DeltaTime;
+		}
+		else
+		{
+			bIsUnderEffect = false;
+			EffectCooldown = DefaultEffectCooldown;
+			EndEffect();
+		}
+	}
 
 }
 
@@ -66,11 +114,11 @@ void AATCharacterBase::Shoot()
 	FCollisionQueryParams TraceParams;
 	
 	FVector LineStart = GetCameraLocation() + GetCameraForward() * 50;
-	FVector LineEnd = LineStart + GetCameraRotation().Vector() * 4000.0f;
+	FVector LineEnd = LineStart + GetCameraRotation().Vector() * 8000.0f;
 
 	GetWorld()->LineTraceSingleByChannel(HitResult, LineStart, LineEnd, ECC_Pawn, TraceParams);
 
-	AActor* HitActor = HitResult.GetActor();
+	HitActor = HitResult.GetActor();
 
 	if(HitActor && HitActor->ActorHasTag("Target"))
 	{
