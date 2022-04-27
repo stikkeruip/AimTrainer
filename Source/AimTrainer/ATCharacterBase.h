@@ -43,17 +43,17 @@ protected:
 
 	bool isInputLocked = false;
 
-	void ApplyEffect_Implementation(EEffectType EffectType, bool bIsBuff) override;
+	void ApplyEffect_Implementation(EEffectType EffectType) override;
 
 	void EndEffect();
 
 	bool bIsUnderEffect = false;
 
-	bool bIsEffectBuff = false;
-
 	float DefaultEffectCooldown = 3.;
 
-	float EffectCooldown = 0.;
+	float EffectCooldown = 3.;
+
+	bool bIsLookLock = false;
 
 	EEffectType CurrentEffect = EEffectType::NONE;
 
@@ -76,9 +76,9 @@ public:
 
 	void EnteredRange(AMovementLocker* Range);
 
-	void TargetShot(AActor* Target);
-
 	void Shoot();
+
+	bool GetLookLock() { return bIsLookLock; }
 
 	AAimTrainerGameModeBase* GameModeRef = nullptr;
 

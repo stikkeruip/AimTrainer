@@ -34,8 +34,9 @@ public:
 
 	void StartGame();
 
-	void SetGameDuration(float value) { GameDuration = value;}
+	void SetWaitTime(float value) { WaitTime = value;}
 
+	UFUNCTION(BlueprintCallable)
 	void AimRangeDone();
 
 private:
@@ -48,7 +49,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Widget")
 	TSubclassOf<UATGameWidget> GameWidgetClass;
 
-	float GameDuration;
+	float WaitTime;
 
 	APlayerController* PC = nullptr;
 };

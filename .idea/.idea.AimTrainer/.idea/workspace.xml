@@ -12,6 +12,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../../Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt/stdlib.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/AimTrainer/GunBase.gen.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/AimTrainer/ATCharacterBase.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -193,6 +196,7 @@
       <workItem from="1650563880512" duration="1613000" />
       <workItem from="1650760349011" duration="599000" />
       <workItem from="1651007654387" duration="4774000" />
+      <workItem from="1651064967743" duration="7184000" />
     </task>
     <servers />
   </component>

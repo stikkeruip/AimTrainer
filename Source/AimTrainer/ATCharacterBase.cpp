@@ -6,7 +6,7 @@
 #include "AimTrainerGameModeBase.h"
 #include "GunBase.h"
 #include "MovementLocker.h"
-#include "GunBase.h"
+#include "TargetBase.h"
 
 // Sets default values
 AATCharacterBase::AATCharacterBase()
@@ -30,19 +30,20 @@ void AATCharacterBase::BeginPlay()
 	GameModeRef = Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode());
 }
 
-void AATCharacterBase::ApplyEffect_Implementation(EEffectType EffectType, bool bIsBuff)
+void AATCharacterBase::ApplyEffect_Implementation(EEffectType EffectType)
 {
 	if(bIsUnderEffect) return;
 
 	CurrentEffect = EffectType;
 	bIsUnderEffect = true;
-	bIsEffectBuff = bIsBuff;
 
 	switch (CurrentEffect)
 	{
 		case EEffectType::POWER:
-			if(bIsEffectBuff)
-				GunBaseRef->Damage *= 2;
+			GunBaseRef->Damage *= 2;
+			break;
+		case EEffectType::SLOW:
+			bIsLookLock = true;
 			break;
 		default:
 			break;
@@ -55,8 +56,10 @@ void AATCharacterBase::EndEffect()
 	switch (CurrentEffect)
 	{
 		case EEffectType::POWER:
-			if(bIsEffectBuff)
-				GunBaseRef->Damage /= 2;
+			GunBaseRef->Damage /= 2;
+			break;
+		case EEffectType::SLOW:
+			bIsLookLock = false;
 			break;
 		default:
 			break;
@@ -98,11 +101,6 @@ void AATCharacterBase::EnteredRange(AMovementLocker* Range)
 	GameModeRef->DisplayCountdown();
 }
 
-void AATCharacterBase::TargetShot(AActor* Target)
-{
-	CurrentRange->DestroyTarget(Target);
-}
-
 void AATCharacterBase::Shoot()
 {
 	if(GameModeRef->GetCurrentGameState() != EGameState::Playing)
@@ -122,7 +120,12 @@ void AATCharacterBase::Shoot()
 
 	if(HitActor && HitActor->ActorHasTag("Target"))
 	{
-		TargetShot(HitActor);
+		ATargetBase* HitTarget = Cast<ATargetBase>(HitActor);
+
+		if(HitTarget->GetEffect() != EEffectType::NONE)
+		{
+			ApplyEffect_Implementation(HitTarget->GetEffect());
+		}
 		HitActor->Destroy();
 	}
 }

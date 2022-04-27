@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PowerUpInterface.h"
 #include "GameFramework/Actor.h"
 #include "TargetBase.generated.h"
 
@@ -22,8 +23,12 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* StaticMeshComponent;
 
+	UPROPERTY(EditAnywhere)
+	EEffectType EffectType = EEffectType::NONE;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	EEffectType GetEffect() { return EffectType; }
 };

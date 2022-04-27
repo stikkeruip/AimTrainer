@@ -44,12 +44,11 @@ void AMovementLocker::StopInput(UPrimitiveComponent* OverlappedComp, AActor* Oth
 			FVector Position = FVector(xy, xy, z);
 			FRotator Rotation = FRotator(0.f, 0.f, 0.f);
 			
-			AActor* SpawnedTarget = GetWorld()->SpawnActor(TargetsToSpawn, &Position, &Rotation);
-			SpawnedTargets.Add(SpawnedTarget);
+			GetWorld()->SpawnActor(TargetsToSpawn, &Position, &Rotation);
 		}
-		Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode())->SetGameDuration(GameDuration);
+		Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode())->SetWaitTime(WaitTime);
 		CharacterBase->EnteredRange(this);
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode()), &AAimTrainerGameModeBase::StartGame, GameDuration, false);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode()), &AAimTrainerGameModeBase::StartGame, WaitTime, false);
 	}
 }
 
@@ -58,18 +57,5 @@ void AMovementLocker::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-}
-
-void AMovementLocker::DestroyTarget(AActor* Target)
-{
-	for (auto i : SpawnedTargets)
-	{
-		if(Target == i)
-		{
-			SpawnedTargets.Remove(i);
-		}
-	}
-	if(SpawnedTargets.Num() == 0)
-		Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode())->AimRangeDone();
 }
 

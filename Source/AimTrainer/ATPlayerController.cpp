@@ -32,7 +32,6 @@ void AATPlayerController::BeginPlay()
 	if (InputComponent)
 	{
 		InputComponent->BindAction("Jump", EInputEvent::IE_Pressed, this, &AATPlayerController::OnJumpAction);
-		InputComponent->BindAction("EnableMove", EInputEvent::IE_Pressed, this, &AATPlayerController::DisableLock);
 		InputComponent->BindAction("Shoot", EInputEvent::IE_Pressed, this, &AATPlayerController::Shoot);
 		InputComponent->BindAxis("Forward", this, &AATPlayerController::MoveForward);
 		InputComponent->BindAxis("Right", this, &AATPlayerController::MoveRight);
@@ -46,14 +45,6 @@ void AATPlayerController::OnJumpAction()
 	if (GetCharacter())
 	{
 		GetCharacter()->Jump();
-	}
-}
-
-void AATPlayerController::DisableLock()
-{
-	if(CharacterBase)
-	{
-		CharacterBase->SetInputLocked(false);
 	}
 }
 
@@ -84,12 +75,14 @@ void AATPlayerController::MoveRight(float value)
 
 void AATPlayerController::LookYaw(float value)
 {
-	AddYawInput(value * BaseLookYawRate * GetWorld()->GetDeltaSeconds());
+	if(!CharacterBase->GetLookLock())
+		AddYawInput(value * BaseLookYawRate * GetWorld()->GetDeltaSeconds());
 }
 
 void AATPlayerController::LookPitch(float value)
 {
-	AddPitchInput(value * BaseLookPitchRate * GetWorld()->GetDeltaSeconds());
+	if(!CharacterBase->GetLookLock())
+		AddPitchInput(value * BaseLookPitchRate * GetWorld()->GetDeltaSeconds());
 }
 
 bool AATPlayerController::CheckCharacterLocked()

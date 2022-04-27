@@ -17,7 +17,7 @@ UENUM(BlueprintType)
 enum class EEffectType : uint8
 {
 	NONE		UMETA(DisplayName = "None"),
-	SPEED		UMETA(DisplayName = "Speed"),
+	SLOW		UMETA(DisplayName = "Slow"),
 	POWER		UMETA(DisplayName = "Power"),
 };
 
@@ -29,5 +29,5 @@ class AIMTRAINER_API IPowerUpInterface
 public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Interact")
-	void ApplyEffect(EEffectType EffectType, bool bIsBuff);
+	void ApplyEffect(EEffectType EffectType);
 };

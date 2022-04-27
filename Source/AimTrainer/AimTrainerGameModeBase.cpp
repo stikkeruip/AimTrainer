@@ -20,7 +20,7 @@ void AAimTrainerGameModeBase::DisplayCountdown()
 	PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	GameWidget = CreateWidget<UATGameWidget>(PC, GameWidgetClass);
 	GameWidget->AddToViewport();
-	GameWidget->StartCountdown(GameDuration, this);
+	GameWidget->StartCountdown(WaitTime, this);
 }
 
 void AAimTrainerGameModeBase::StartGame()
@@ -30,6 +30,7 @@ void AAimTrainerGameModeBase::StartGame()
 
 void AAimTrainerGameModeBase::AimRangeDone()
 {
+	SetCurrentGameState(EGameState::Waiting);
 	GameWidget->LevelComplete();
 	FInputModeUIOnly InputMode;
 	PC->SetInputMode(InputMode);

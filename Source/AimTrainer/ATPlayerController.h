@@ -26,8 +26,6 @@ protected:
 
 	void OnJumpAction();
 
-	void DisableLock();
-
 	void Shoot();
 
 	void MoveForward(float value);

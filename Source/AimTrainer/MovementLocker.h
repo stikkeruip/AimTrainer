@@ -29,21 +29,20 @@ protected:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> TargetsToSpawn;
 
-	UPROPERTY(EditAnywhere, Category = "Game Details")
-	float GameDuration = 3.f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game Details")
+	float WaitTime = 3.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float GameDuration = 0;
 
 	UFUNCTION()
 	void StopInput(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
 		bool bFromSweep, const FHitResult& SweepResult);
-
-	TArray<AActor*> SpawnedTargets;
 
 	FTimerHandle TimerHandle;
 	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	void DestroyTarget (AActor* Target);
 
 };
