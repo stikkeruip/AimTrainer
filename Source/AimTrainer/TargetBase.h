@@ -3,12 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TargetHitInterface.h"
 #include "PowerUpInterface.h"
 #include "GameFramework/Actor.h"
 #include "TargetBase.generated.h"
 
 UCLASS()
-class AIMTRAINER_API ATargetBase : public AActor
+class AIMTRAINER_API ATargetBase : public AActor, public ITargetHitInterface
 {
 	GENERATED_BODY()
 	
@@ -25,6 +26,8 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	EEffectType EffectType = EEffectType::NONE;
+
+	void OnHit(AActor* HitInstigator) override;
 
 public:	
 	// Called every frame

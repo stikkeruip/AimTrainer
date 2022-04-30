@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "ATPlayerController.h"
-#include "PowerUpInterface.h"
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -12,7 +11,7 @@
 
 class AAimTrainerGameModeBase; class AMovementLocker; class AGunBase;
 UCLASS()
-class AIMTRAINER_API AATCharacterBase : public ACharacter, public IPowerUpInterface
+class AIMTRAINER_API AATCharacterBase : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -30,9 +29,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UCameraComponent* CameraComponent;
 
-	UFUNCTION(BlueprintCallable)
-	AATPlayerController* GetATPlayerController() { return Cast<AATPlayerController>(GetController()); }
-
 	UFUNCTION(BlueprintImplementableEvent)
 	void GunShot();
 
@@ -43,19 +39,7 @@ protected:
 
 	bool isInputLocked = false;
 
-	void ApplyEffect_Implementation(EEffectType EffectType) override;
-
-	void EndEffect();
-
-	bool bIsUnderEffect = false;
-
-	float DefaultEffectCooldown = 3.;
-
-	float EffectCooldown = 3.;
-
 	bool bIsLookLock = false;
-
-	EEffectType CurrentEffect = EEffectType::NONE;
 
 public:	
 	// Called every frame
@@ -84,4 +68,8 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	AGunBase* GunBaseRef;
+
+	void SetLookLock(bool value) { bIsLookLock = value; }
+
+	void SetDamage(bool value);
 };

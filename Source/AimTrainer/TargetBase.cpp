@@ -3,6 +3,9 @@
 
 #include "TargetBase.h"
 
+#include "EffectComponent.h"
+#include "PowerUpInterface.h"
+
 // Sets default values
 ATargetBase::ATargetBase()
 {
@@ -18,6 +21,17 @@ void ATargetBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void ATargetBase::OnHit(AActor* HitInstigator)
+{
+	IPowerUpInterface* I = Cast<IPowerUpInterface>(HitInstigator->FindComponentByClass<UEffectComponent>());
+
+	if(I)
+	{
+		I->ApplyEffect(EffectType);
+	}
+	Destroy();
 }
 
 // Called every frame

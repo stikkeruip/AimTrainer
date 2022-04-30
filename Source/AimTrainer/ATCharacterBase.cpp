@@ -30,60 +30,10 @@ void AATCharacterBase::BeginPlay()
 	GameModeRef = Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode());
 }
 
-void AATCharacterBase::ApplyEffect_Implementation(EEffectType EffectType)
-{
-	if(bIsUnderEffect) return;
-
-	CurrentEffect = EffectType;
-	bIsUnderEffect = true;
-
-	switch (CurrentEffect)
-	{
-		case EEffectType::POWER:
-			GunBaseRef->Damage *= 2;
-			break;
-		case EEffectType::SLOW:
-			bIsLookLock = true;
-			break;
-		default:
-			break;
-	}
-}
-
-void AATCharacterBase::EndEffect()
-{
-	bIsUnderEffect = false;
-	switch (CurrentEffect)
-	{
-		case EEffectType::POWER:
-			GunBaseRef->Damage /= 2;
-			break;
-		case EEffectType::SLOW:
-			bIsLookLock = false;
-			break;
-		default:
-			break;
-	}
-}
-
 // Called every frame
 void AATCharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if(bIsUnderEffect)
-	{
-		if(EffectCooldown > 0)
-		{
-			EffectCooldown -= DeltaTime;
-		}
-		else
-		{
-			bIsUnderEffect = false;
-			EffectCooldown = DefaultEffectCooldown;
-			EndEffect();
-		}
-	}
 
 }
 
@@ -118,15 +68,16 @@ void AATCharacterBase::Shoot()
 
 	HitActor = HitResult.GetActor();
 
-	if(HitActor && HitActor->ActorHasTag("Target"))
-	{
-		ATargetBase* HitTarget = Cast<ATargetBase>(HitActor);
+	ITargetHitInterface* I = Cast<ITargetHitInterface>(HitActor);
 
-		if(HitTarget->GetEffect() != EEffectType::NONE)
-		{
-			ApplyEffect_Implementation(HitTarget->GetEffect());
-		}
-		HitActor->Destroy();
+	if(I)
+	{
+		I->OnHit(this);	
 	}
+}
+
+void AATCharacterBase::SetDamage(bool value)
+{
+	GunBaseRef->Damage = value ? GunBaseRef->Damage *= 2 : GunBaseRef->Damage /= 2;
 }
 
