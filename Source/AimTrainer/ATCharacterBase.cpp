@@ -5,6 +5,7 @@
 
 #include "AimTrainerGameModeBase.h"
 #include "GunBase.h"
+#include "MenuButton.h"
 #include "MovementLocker.h"
 #include "TargetBase.h"
 
@@ -34,7 +35,6 @@ void AATCharacterBase::BeginPlay()
 void AATCharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -53,9 +53,6 @@ void AATCharacterBase::EnteredRange(AMovementLocker* Range)
 
 void AATCharacterBase::Shoot()
 {
-	if(GameModeRef->GetCurrentGameState() != EGameState::Playing)
-		return;
-
 	GunShot();
 	
 	FHitResult HitResult;
@@ -72,7 +69,14 @@ void AATCharacterBase::Shoot()
 
 	if(I)
 	{
-		I->OnHit(this);	
+		I->OnHit(this);
+		return;
+	}
+
+	AMenuButton* M = Cast<AMenuButton>(HitActor);
+	if(M)
+	{
+		M->OnHit();
 	}
 }
 

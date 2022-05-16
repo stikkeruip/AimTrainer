@@ -28,6 +28,8 @@ protected:
 
 	void Shoot();
 
+	void StopShoot();
+
 	void MoveForward(float value);
 	
 	void MoveRight(float value);
@@ -48,6 +50,8 @@ protected:
 	
 	UPROPERTY()
 	AATCharacterBase* CharacterBase = nullptr;
+
+	FTimerHandle TimerHandle;
 
 public:
 

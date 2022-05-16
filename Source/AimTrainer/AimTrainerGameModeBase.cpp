@@ -16,11 +16,21 @@ void AAimTrainerGameModeBase::DisplayCountdown()
 {
 	if(!GameWidgetClass)
 		return;
-	
-	PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	GameWidget = CreateWidget<UATGameWidget>(PC, GameWidgetClass);
-	GameWidget->AddToViewport();
-	GameWidget->StartCountdown(WaitTime, this);
+
+	for(FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; It++)
+	{
+		APlayerController* PC = It->Get();
+		if(PC && PC->PlayerState && !MustSpectate(PC))
+		{
+			UATGameWidget* GameWidget = CreateWidget<UATGameWidget>(PC, GameWidgetClass);
+			if(GameWidget)
+			{
+				GameWidget->AddToPlayerScreen();
+				GameWidget->StartCountdown(WaitTime, this);
+				GameWidgets.Add(PC, GameWidget);
+			}
+		}
+	}
 }
 
 void AAimTrainerGameModeBase::StartGame()
@@ -31,10 +41,20 @@ void AAimTrainerGameModeBase::StartGame()
 void AAimTrainerGameModeBase::AimRangeDone()
 {
 	SetCurrentGameState(EGameState::Waiting);
-	GameWidget->LevelComplete();
-	FInputModeUIOnly InputMode;
-	PC->SetInputMode(InputMode);
-	PC->SetShowMouseCursor(true);
+	for(auto i : GameWidgets)
+	{
+		if(i.Value)
+		{
+			i.Value->LevelComplete();
+		}
+		if(i.Key)
+		{
+			FInputModeUIOnly InputMode;
+			i.Key->SetInputMode(InputMode);
+			i.Key->SetShowMouseCursor(true);
+		}
+	}
+	
 }
 
 

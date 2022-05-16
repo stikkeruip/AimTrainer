@@ -33,7 +33,7 @@ protected:
 	float WaitTime = 3.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float GameDuration = 0;
+	float GameDurationML = 0;
 
 	UFUNCTION()
 	void StopInput(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,

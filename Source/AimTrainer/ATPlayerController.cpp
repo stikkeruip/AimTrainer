@@ -33,6 +33,7 @@ void AATPlayerController::BeginPlay()
 	{
 		InputComponent->BindAction("Jump", EInputEvent::IE_Pressed, this, &AATPlayerController::OnJumpAction);
 		InputComponent->BindAction("Shoot", EInputEvent::IE_Pressed, this, &AATPlayerController::Shoot);
+		InputComponent->BindAction("Shoot", EInputEvent::IE_Released, this, &AATPlayerController::StopShoot);
 		InputComponent->BindAxis("Forward", this, &AATPlayerController::MoveForward);
 		InputComponent->BindAxis("Right", this, &AATPlayerController::MoveRight);
 		InputComponent->BindAxis("Yaw", this, &AATPlayerController::LookYaw);
@@ -50,7 +51,12 @@ void AATPlayerController::OnJumpAction()
 
 void AATPlayerController::Shoot()
 {
-	CharacterBase->Shoot();
+	GetWorldTimerManager().SetTimer(TimerHandle, CharacterBase, &AATCharacterBase::Shoot, 0.2, true, 0.);
+}
+
+void AATPlayerController::StopShoot()
+{
+	GetWorldTimerManager().ClearTimer(TimerHandle);
 }
 
 void AATPlayerController::MoveForward(float value)

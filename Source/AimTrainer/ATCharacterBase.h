@@ -37,7 +37,7 @@ protected:
 
 	AMovementLocker* CurrentRange = nullptr;
 
-	bool isInputLocked = false;
+	bool bIsInputLocked = false;
 
 	bool bIsLookLock = false;
 
@@ -48,9 +48,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void SetInputLocked(bool val) { isInputLocked = val; }
+	void SetInputLocked(bool val) { bIsInputLocked = val; }
 
-	bool GetInputLocked() { return isInputLocked; }
+	bool GetInputLocked() { return bIsInputLocked; }
 
 	FVector GetCameraLocation() { return CameraComponent->GetComponentLocation(); }
 	

@@ -44,12 +44,10 @@ private:
 	EGameState CurrentGameState = EGameState::NONE;
 
 	UPROPERTY()
-	UATGameWidget* GameWidget;
-
+	TMap<APlayerController*, UATGameWidget*> GameWidgets;
+	
 	UPROPERTY(EditAnywhere, Category = "Widget")
 	TSubclassOf<UATGameWidget> GameWidgetClass;
 
 	float WaitTime;
-
-	APlayerController* PC = nullptr;
 };
