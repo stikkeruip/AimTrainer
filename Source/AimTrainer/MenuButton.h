@@ -6,6 +6,7 @@
 #include "Engine/StaticMeshActor.h"
 #include "MenuButton.generated.h"
 
+class AATCharacterBase;
 /**
  * 
  */
@@ -18,5 +19,5 @@ class AIMTRAINER_API AMenuButton : public AStaticMeshActor
 public:
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void OnHit();
+	void OnHit(AATCharacterBase* Character);
 };

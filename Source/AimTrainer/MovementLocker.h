@@ -26,7 +26,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UBoxComponent* BoxComponent;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<AActor> TargetsToSpawn;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game Details")

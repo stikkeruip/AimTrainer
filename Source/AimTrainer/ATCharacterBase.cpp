@@ -76,7 +76,7 @@ void AATCharacterBase::Shoot()
 	AMenuButton* M = Cast<AMenuButton>(HitActor);
 	if(M)
 	{
-		M->OnHit();
+		M->OnHit(this);
 	}
 }
 
