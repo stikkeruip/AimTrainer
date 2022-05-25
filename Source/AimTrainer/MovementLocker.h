@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "MovementLocker.generated.h"
 
+class AAimTrainerGameModeBase;
 UCLASS()
 class AIMTRAINER_API AMovementLocker : public AActor
 {
@@ -33,13 +34,21 @@ protected:
 	float WaitTime = 3.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float GameDurationML = 0;
-
+	float GameDurationML = 5;
+	
 	UFUNCTION()
 	void StopInput(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
 		bool bFromSweep, const FHitResult& SweepResult);
 
 	FTimerHandle TimerHandle;
+
+	int MaxTargets = 5;
+
+	float SpawnWaitTime = 1.5f;
+	
+	float LastSpawnTime = 0.f;
+
+	AAimTrainerGameModeBase* GameModeRef;
 	
 public:	
 	// Called every frame

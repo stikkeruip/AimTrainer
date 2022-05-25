@@ -70,6 +70,7 @@ void AATCharacterBase::Shoot()
 	if(I)
 	{
 		I->OnHit(this);
+		GameModeRef->ActiveTargets--;
 		return;
 	}
 

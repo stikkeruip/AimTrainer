@@ -39,6 +39,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AimRangeDone();
 
+	UPROPERTY(BlueprintReadWrite)
+	TSubclassOf<AActor> SelectedTarget;
+
+	int ActiveTargets = 0;
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "States")
 	EGameState CurrentGameState = EGameState::NONE;

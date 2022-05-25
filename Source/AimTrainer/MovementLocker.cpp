@@ -27,7 +27,8 @@ AMovementLocker::AMovementLocker()
 void AMovementLocker::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	GameModeRef = Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode());
 }
 
 void AMovementLocker::StopInput(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -36,16 +37,6 @@ void AMovementLocker::StopInput(UPrimitiveComponent* OverlappedComp, AActor* Oth
 	if(auto* CharacterBase = Cast<AATCharacterBase>(OtherActor))
 	{
 		CharacterBase->SetInputLocked(true);
-
-		for(int i = 0; i < 3; i++)
-		{
-			float xy = FMath::RandRange(-1500, 3000);
-			float z = FMath::RandRange(200, 1500);
-			FVector Position = FVector(xy, xy, z);
-			FRotator Rotation = FRotator(0.f, 0.f, 0.f);
-			
-			GetWorld()->SpawnActor(TargetsToSpawn, &Position, &Rotation);
-		}
 		Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode())->SetWaitTime(WaitTime);
 		CharacterBase->EnteredRange(this);
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode()), &AAimTrainerGameModeBase::StartGame, WaitTime, false);
@@ -57,5 +48,23 @@ void AMovementLocker::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if(GameModeRef->GetCurrentGameState() == EGameState::Playing)
+	{
+		if(GetWorld()->GetTimeSeconds() - LastSpawnTime > SpawnWaitTime)
+		{
+			if(GameModeRef->ActiveTargets < MaxTargets)
+			{
+				float xy = FMath::RandRange(-1500, 3000);
+				float z = FMath::RandRange(200, 1500);
+				FVector Position = FVector(xy, xy, z);
+				FRotator Rotation = FRotator(0.f, 0.f, 0.f);
+			
+				GetWorld()->SpawnActor(GameModeRef->SelectedTarget, &Position, &Rotation);
+
+				LastSpawnTime = GetWorld()->GetTimeSeconds();
+				GameModeRef->ActiveTargets++;
+			}
+		}
+	}
 }
 
