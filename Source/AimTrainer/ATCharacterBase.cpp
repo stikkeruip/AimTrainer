@@ -8,6 +8,7 @@
 #include "MenuButton.h"
 #include "MovementLocker.h"
 #include "TargetBase.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values
 AATCharacterBase::AATCharacterBase()
@@ -27,8 +28,6 @@ AATCharacterBase::AATCharacterBase()
 void AATCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	GameModeRef = Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode());
 }
 
 // Called every frame
@@ -41,20 +40,10 @@ void AATCharacterBase::Tick(float DeltaTime)
 void AATCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
-
-void AATCharacterBase::EnteredRange(AMovementLocker* Range)
-{
-	CurrentRange = Range;
-	GameModeRef->SetCurrentGameState(EGameState::Waiting);
-	GameModeRef->DisplayCountdown();
 }
 
 void AATCharacterBase::Shoot()
 {
-	GunShot();
-	
 	FHitResult HitResult;
 	FCollisionQueryParams TraceParams;
 	
@@ -65,12 +54,14 @@ void AATCharacterBase::Shoot()
 
 	HitActor = HitResult.GetActor();
 
+	GunShot();
+	
 	ITargetHitInterface* I = Cast<ITargetHitInterface>(HitActor);
-
+	
 	if(I)
 	{
 		I->OnHit(this);
-		GameModeRef->ActiveTargets--;
+		//GameModeRef->ActiveTargets--;
 		return;
 	}
 

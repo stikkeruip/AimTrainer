@@ -18,6 +18,8 @@ class AIMTRAINER_API AATPlayerController : public APlayerController
 
 protected:
 
+	//void GetLifetimeReplicatedProps( TArray< FLifetimeProperty > & OutLifetimeProps ) const override;
+	
 	virtual void OnPossess(APawn* InPawn) override;
 
 	virtual void OnUnPossess() override;
@@ -48,7 +50,7 @@ protected:
 
 	AAimTrainerGameModeBase* GameModeRef;
 	
-	UPROPERTY()
+	UPROPERTY(Replicated)
 	AATCharacterBase* CharacterBase = nullptr;
 
 	FTimerHandle TimerHandle;

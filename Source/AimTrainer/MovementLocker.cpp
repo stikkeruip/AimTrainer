@@ -36,10 +36,11 @@ void AMovementLocker::StopInput(UPrimitiveComponent* OverlappedComp, AActor* Oth
 {
 	if(auto* CharacterBase = Cast<AATCharacterBase>(OtherActor))
 	{
+		GameModeRef->SetCurrentGameState(EGameState::Waiting);
 		CharacterBase->SetInputLocked(true);
 		Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode())->SetWaitTime(WaitTime);
-		CharacterBase->EnteredRange(this);
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode()), &AAimTrainerGameModeBase::StartGame, WaitTime, false);
+		GameModeRef->DisplayCountdown();
 	}
 }
 
@@ -48,9 +49,9 @@ void AMovementLocker::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(GameModeRef->GetCurrentGameState() == EGameState::Playing)
+	if(GameModeRef && GameModeRef->GetCurrentGameState() == EGameState::Playing)
 	{
-		if(GetWorld()->GetTimeSeconds() - LastSpawnTime > SpawnWaitTime)
+		if(GetWorld() && GetWorld()->GetTimeSeconds() - LastSpawnTime > SpawnWaitTime)
 		{
 			if(GameModeRef->ActiveTargets < MaxTargets)
 			{

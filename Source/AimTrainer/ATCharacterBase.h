@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ATPlayerController.h"
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -35,8 +34,6 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	AActor* HitActor = nullptr;
 
-	AMovementLocker* CurrentRange = nullptr;
-
 	bool bIsInputLocked = false;
 
 	bool bIsLookLock = false;
@@ -58,13 +55,9 @@ public:
 	
 	FVector GetCameraForward() { return CameraComponent->GetForwardVector(); }
 
-	void EnteredRange(AMovementLocker* Range);
-
 	void Shoot();
 
 	bool GetLookLock() { return bIsLookLock; }
-
-	AAimTrainerGameModeBase* GameModeRef = nullptr;
 
 	UPROPERTY(BlueprintReadWrite)
 	AGunBase* GunBaseRef;

@@ -31,7 +31,6 @@ void ATargetBase::OnHit(AActor* HitInstigator)
 	{
 		I->ApplyEffect(EffectType);
 	}
-	Destroy();
 }
 
 // Called every frame

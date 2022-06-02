@@ -2,11 +2,12 @@
 
 
 #include "ATPlayerController.h"
-
 #include "AimTrainerGameModeBase.h"
 #include "ATCharacterBase.h"
-
 #include "GameFramework/Character.h"
+#include "Net/UnrealNetwork.h"
+
+#pragma optimize("", off)
 
 void AATPlayerController::OnPossess(APawn* InPawn)
 {
@@ -22,6 +23,10 @@ void AATPlayerController::OnUnPossess()
 	CharacterBase = nullptr;
 }
 
+void AATPlayerController::GetLifetimeReplicatedProps( TArray< FLifetimeProperty > & OutLifetimeProps ) const
+{
+	DOREPLIFETIME( AATPlayerController, CharacterBase );
+}
 
 void AATPlayerController::BeginPlay()
 {
@@ -61,7 +66,7 @@ void AATPlayerController::StopShoot()
 
 void AATPlayerController::MoveForward(float value)
 {
-	if(CheckCharacterLocked())
+	if(CheckCharacterLocked() || !GetPawn())
 		return;
 	
 	FRotator const ControlSpaceRot = GetControlRotation();
@@ -71,7 +76,7 @@ void AATPlayerController::MoveForward(float value)
 
 void AATPlayerController::MoveRight(float value)
 {
-	if(CheckCharacterLocked())
+	if(CheckCharacterLocked() || !GetPawn())
 		return;
 	
 	FRotator const ControlSpaceRot = GetControlRotation();
@@ -81,21 +86,22 @@ void AATPlayerController::MoveRight(float value)
 
 void AATPlayerController::LookYaw(float value)
 {
-	if(!CharacterBase->GetLookLock())
-		AddYawInput(value * BaseLookYawRate * GetWorld()->GetDeltaSeconds());
+	if(CharacterBase && !CharacterBase->GetLookLock())
+	AddYawInput(value * BaseLookYawRate * GetWorld()->GetDeltaSeconds());
 }
 
 void AATPlayerController::LookPitch(float value)
 {
-	if(!CharacterBase->GetLookLock())
-		AddPitchInput(value * BaseLookPitchRate * GetWorld()->GetDeltaSeconds());
+	if(CharacterBase && !CharacterBase->GetLookLock())
+	AddPitchInput(value * BaseLookPitchRate * GetWorld()->GetDeltaSeconds());
 }
 
 bool AATPlayerController::CheckCharacterLocked()
 {
-	if(CharacterBase->GetInputLocked())
+	if(CharacterBase && CharacterBase->GetInputLocked())
 	{
 		return true;
 	}
 	return false;
 }
+#pragma optimize("", on)

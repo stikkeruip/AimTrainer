@@ -30,10 +30,6 @@ public:
 
 	void SetCurrentGameState(EGameState State) { CurrentGameState = State; }
 
-	void DisplayCountdown();
-
-	void StartGame();
-
 	void SetWaitTime(float value) { WaitTime = value;}
 
 	UFUNCTION(BlueprintCallable)
@@ -50,9 +46,6 @@ private:
 
 	UPROPERTY()
 	TMap<APlayerController*, UATGameWidget*> GameWidgets;
-	
-	UPROPERTY(EditAnywhere, Category = "Widget")
-	TSubclassOf<UATGameWidget> GameWidgetClass;
 
 	float WaitTime;
 };
