@@ -16,7 +16,7 @@ class AIMTRAINER_API UATGameWidget : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintImplementableEvent)
-	void StartCountdown(float CountdownTime, class AAimTrainerGameModeBase* GameMode);
+	void StartCountdown(float CountdownTime);
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void LevelComplete();

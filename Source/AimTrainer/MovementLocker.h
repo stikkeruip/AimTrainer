@@ -7,7 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "MovementLocker.generated.h"
 
-class AAimTrainerGameModeBase;
+class AAimTrainerGameModeBase; class AATGameState; class UATGameInstance;
 UCLASS()
 class AIMTRAINER_API AMovementLocker : public AActor
 {
@@ -49,6 +49,10 @@ protected:
 	float LastSpawnTime = 0.f;
 
 	AAimTrainerGameModeBase* GameModeRef;
+
+	AATGameState* GameState;
+
+	UATGameInstance* GameInstance;
 	
 public:	
 	// Called every frame

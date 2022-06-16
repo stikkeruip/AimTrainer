@@ -8,21 +8,16 @@
 #include "ATGameInstance.generated.h"
 
 class UATGameWidget;
-/**
- * 
- */
 UCLASS()
 class AIMTRAINER_API UATGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 
-	void DisplayCountdown();
-
-	void StartGame() { CurrentGameState = EGameState::Playing; };
+public:
+	int ActiveTargets = 0;
+	
+	float GetActiveTargets() { return ActiveTargets; }
 
 private:
-	UPROPERTY(EditAnywhere, Category = "Widget")
-	TSubclassOf<UATGameWidget> GameWidgetClass;
-
 	
 };

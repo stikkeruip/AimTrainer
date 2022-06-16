@@ -6,6 +6,7 @@
 #include "GameFramework/MovementComponent.h"
 #include "TargetMovementComponent.generated.h"
 
+class AATGameState;
 class AAimTrainerGameModeBase;
 /**
  * 
@@ -20,7 +21,7 @@ class AIMTRAINER_API UTargetMovementComponent : public UMovementComponent
 protected:
 	
 
-	AAimTrainerGameModeBase* GameModeBase = nullptr;
+	AATGameState* GameState = nullptr;
 
 private:
 	virtual void BeginPlay() override;

@@ -3,7 +3,7 @@
 
 #include "TargetMovementComponent.h"
 
-#include "AimTrainerGameModeBase.h"
+#include "ATGameState.h"
 
 UTargetMovementComponent::UTargetMovementComponent()
 {
@@ -14,7 +14,7 @@ void UTargetMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GameModeBase = Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode());
+	GameState = Cast<AATGameState>(GetWorld()->GetGameState());
 
 	InitialLocation = GetOwner()->GetActorLocation();
 	
@@ -28,7 +28,7 @@ void UTargetMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if(GameModeBase->GetCurrentGameState() == EGameState::Playing)
+	if(GameState->GetCurrentGameState() == EGameState::Playing)
 	{
 		TimePassed += DeltaTime;
 		if(TimePassed < TimeToMove)

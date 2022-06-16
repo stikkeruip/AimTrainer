@@ -2,33 +2,29 @@
 
 
 #include "AimTrainerGameModeBase.h"
+
+#include "ATGameInstance.h"
+#include "ATGameState.h"
 #include "ATGameWidget.h"
 #include "Kismet/GameplayStatics.h"
 
 void AAimTrainerGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	CurrentGameState = EGameState::NONE;
+	
+	GameInstance = Cast<UATGameInstance>(GetGameInstance());
+	GameState = Cast<AATGameState>(GetWorld()->GetGameState());
 }
 
-void AAimTrainerGameModeBase::AimRangeDone()
+void AAimTrainerGameModeBase::PlayerEnteredLocker(AATCharacterBase* Player)
 {
-	SetCurrentGameState(EGameState::Waiting);
-	for(auto i : GameWidgets)
-	{
-		if(i.Value)
-		{
-			i.Value->LevelComplete();
-		}
-		if(i.Key)
-		{
-			FInputModeUIOnly InputMode;
-			i.Key->SetInputMode(InputMode);
-			i.Key->SetShowMouseCursor(true);
-		}
-	}
+	FTimerHandle TimerHandle;
+	FTimerDelegate Delegate;
+	Delegate.BindUFunction(GameState, "SetCurrentGameState", EGameState::Playing);
+
+	GameState->SetCurrentGameState(EGameState::Countdown);
 	
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, Delegate, WaitTime, false);
 }
 
 

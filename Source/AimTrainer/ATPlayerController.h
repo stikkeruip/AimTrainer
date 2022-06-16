@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "ATPlayerController.generated.h"
 
+class UATGameWidget;
 class AATCharacterBase; class AAimTrainerGameModeBase;
 
 /**
@@ -15,6 +16,9 @@ UCLASS()
 class AIMTRAINER_API AATPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
+public:
+	TSubclassOf<UATGameWidget> GetGameWidget() { return GameWidgetClass; }
 
 protected:
 
@@ -52,6 +56,9 @@ protected:
 	
 	UPROPERTY(Replicated)
 	AATCharacterBase* CharacterBase = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Widget")
+	TSubclassOf<UATGameWidget> GameWidgetClass;
 
 	FTimerHandle TimerHandle;
 

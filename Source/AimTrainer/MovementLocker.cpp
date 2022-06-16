@@ -4,6 +4,8 @@
 #include "MovementLocker.h"
 #include "AimTrainerGameModeBase.h"
 #include "ATCharacterBase.h"
+#include "ATGameInstance.h"
+#include "ATGameState.h"
 
 #include "Kismet/GameplayStatics.h"
 
@@ -29,18 +31,23 @@ void AMovementLocker::BeginPlay()
 	Super::BeginPlay();
 
 	GameModeRef = Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode());
+
+	GameState = Cast<AATGameState>(GetWorld()->GetGameState());
+
+	GameInstance = Cast<UATGameInstance>(GetGameInstance());
 }
 
 void AMovementLocker::StopInput(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if(!HasAuthority())
+		return;
+	
 	if(auto* CharacterBase = Cast<AATCharacterBase>(OtherActor))
 	{
-		GameModeRef->SetCurrentGameState(EGameState::Waiting);
 		CharacterBase->SetInputLocked(true);
-		Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode())->SetWaitTime(WaitTime);
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode()), &AAimTrainerGameModeBase::StartGame, WaitTime, false);
-		GameModeRef->DisplayCountdown();
+		GameModeRef->SetWaitTime(WaitTime);
+		GameModeRef->PlayerEnteredLocker(CharacterBase);
 	}
 }
 
@@ -49,11 +56,11 @@ void AMovementLocker::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(GameModeRef && GameModeRef->GetCurrentGameState() == EGameState::Playing)
+	if(GameState && GameState->GetCurrentGameState() == EGameState::Playing)
 	{
 		if(GetWorld() && GetWorld()->GetTimeSeconds() - LastSpawnTime > SpawnWaitTime)
 		{
-			if(GameModeRef->ActiveTargets < MaxTargets)
+			if(GameInstance->ActiveTargets < MaxTargets)
 			{
 				float xy = FMath::RandRange(-1500, 3000);
 				float z = FMath::RandRange(200, 1500);
@@ -63,7 +70,7 @@ void AMovementLocker::Tick(float DeltaTime)
 				GetWorld()->SpawnActor(GameModeRef->SelectedTarget, &Position, &Rotation);
 
 				LastSpawnTime = GetWorld()->GetTimeSeconds();
-				GameModeRef->ActiveTargets++;
+				GameInstance->ActiveTargets++;
 			}
 		}
 	}
