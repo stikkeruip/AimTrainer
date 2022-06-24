@@ -14,9 +14,7 @@ class AIMTRAINER_API UATGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
-	int ActiveTargets = 0;
 	
-	float GetActiveTargets() { return ActiveTargets; }
 
 private:
 	

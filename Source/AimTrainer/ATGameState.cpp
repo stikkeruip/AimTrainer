@@ -6,7 +6,13 @@
 #include "AimTrainerGameModeBase.h"
 #include "ATGameWidget.h"
 #include "ATPlayerController.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+
+AATGameState::AATGameState()
+{
+	PrimaryActorTick.bCanEverTick = true;
+}
 
 void AATGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
@@ -28,6 +34,24 @@ void AATGameState::BeginPlay()
 	GameModeRef = Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode());
 }
 
+void AATGameState::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if(GetActiveTargets() < MaxTargets)
+	{
+		float xy = FMath::RandRange(-1500, 3000);
+		float z = FMath::RandRange(200, 1500);
+		FVector Position = FVector(xy, xy, z);
+		FRotator Rotation = FRotator(0.f, 0.f, 0.f);
+	
+		GetWorld()->SpawnActor(SelectedTarget, &Position, &Rotation);
+
+		LastSpawnTime = GetWorld()->GetTimeSeconds();
+		AddTarget();
+	}
+}
+
 void AATGameState::DisplayLocalCountdown()
 {
 	AATPlayerController* PC = Cast<AATPlayerController>(GetWorld()->GetFirstPlayerController());
@@ -42,16 +66,15 @@ void AATGameState::DisplayLocalCountdown()
 		if(GameWidget)
 		{
 			GameWidget->AddToPlayerScreen();
-			GameWidget->StartCountdown(GameModeRef->GetWaitTime());
+			GameWidget->StartWaitCountdown(WaitTime);
 		}
 	}
 }
 
 void AATGameState::SetCurrentGameState(EGameState State)
 {
-	EGameState OldState = CurrentGameState;
 	CurrentGameState = State;
-	OnRep_GameState(OldState);
+	OnRep_GameState();
 }
 
 void AATGameState::AimRangeDone()
@@ -94,7 +117,25 @@ void AATGameState::AddPlayer(AATCharacterBase* Player)
 	//Set state to countdown
 }
 
-void AATGameState::OnRep_GameState(const EGameState& OldGameState)
+void AATGameState::PlayerEnteredLocker(AATCharacterBase* Player)
+{
+	FTimerHandle TimerHandle;
+	FTimerDelegate Delegate;
+	Delegate.BindUFunction(this, "SetCurrentGameState", EGameState::Playing);
+
+	SetCurrentGameState(EGameState::Countdown);
+	
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, Delegate, WaitTime, false);
+}
+
+void AATGameState::StartTraining()
+{
+	bIsGamePlaying = true;
+
+	bIsTarget = SelectedTarget ? true : false;
+}
+
+void AATGameState::OnRep_GameState()
 {
 	switch (CurrentGameState)
 	{
@@ -102,6 +143,18 @@ void AATGameState::OnRep_GameState(const EGameState& OldGameState)
 			DisplayLocalCountdown();
 			break;
 
+		case EGameState::Restart:
+			RestartGame();
+			break;
+
+		case EGameState::Waiting:
+			RemoveMenu();
+			break;
+
+		case EGameState::Playing:
+			StartTraining();
+			break;
+			
 		default:
 			break;
 	}

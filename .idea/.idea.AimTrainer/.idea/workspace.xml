@@ -30,17 +30,6 @@
     <setting file="file://$PROJECT_DIR$/Source/AimTrainer/AimTrainerGameModeBase.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/AimTrainer/AimTrainerGameModeBase.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/AimTrainer/MovementLocker.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/AimTrainer/MovementLocker.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/AimTrainer/TargetBase.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/AimTrainer/TargetBase.h" root0="FORCE_HIGHLIGHTING" />
@@ -241,7 +230,12 @@
       <workItem from="1655323745342" duration="3901000" />
       <workItem from="1655393469003" duration="4311000" />
       <workItem from="1655399046445" duration="121000" />
-      <workItem from="1655399219008" duration="2109000" />
+      <workItem from="1655399219008" duration="2416000" />
+      <workItem from="1656003863288" duration="1846000" />
+      <workItem from="1656012661496" duration="2716000" />
+      <workItem from="1656017090259" duration="2266000" />
+      <workItem from="1656019438550" duration="10718000" />
+      <workItem from="1656032721624" duration="5067000" />
     </task>
     <servers />
   </component>

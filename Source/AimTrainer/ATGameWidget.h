@@ -15,9 +15,10 @@ class AIMTRAINER_API UATGameWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintImplementableEvent)
-	void StartCountdown(float CountdownTime);
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartWaitCountdown(float CountdownTime);
+	
 	UFUNCTION(BlueprintImplementableEvent)
 	void LevelComplete();
 	

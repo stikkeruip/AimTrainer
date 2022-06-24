@@ -16,6 +16,7 @@ enum class EGameState : uint8
 	Countdown	UMETA(DisplayName = "Countdown"),
 	Playing		UMETA(DisplayName = "Playing"),
 	Paused		UMETA(DisplayName = "Paused"),
+	Restart		UMETA(DisplayName = "Restart"),
 	GameOver	UMETA(DisplayName = "GameOver"),
 };
 
@@ -25,20 +26,60 @@ class AIMTRAINER_API AATGameState : public AGameStateBase
 	GENERATED_BODY()
 	
 public:
+
+	AATGameState();
+	
 	UFUNCTION(BlueprintCallable)
 	EGameState GetCurrentGameState() const { return CurrentGameState; }
-
-	UFUNCTION()
+	
+	UFUNCTION(BlueprintCallable)
 	void SetCurrentGameState(EGameState State);
 
 	UFUNCTION(BlueprintCallable)
 	void AimRangeDone();
 
-	void DisplayCountdown();
+	UFUNCTION(BlueprintImplementableEvent)
+	void RestartGame();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void RemoveMenu();
+	
+	UPROPERTY(BlueprintReadWrite)
+	TSubclassOf<AActor> SelectedTarget;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsGamePlaying = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game Details")
+	float WaitTime = 3.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float GameDurationML = 5;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<AActor> TargetsToSpawn;
 
 	void AddPlayer(AATCharacterBase* Player);
 
 	void DisplayLocalCountdown();
+	
+	float GetActiveTargets() { return ActiveTargets; }
+
+	void AddTarget() { ActiveTargets++; }
+
+	void PlayerEnteredLocker(AATCharacterBase* Player);
+
+	void SetWaitTime(float value) { WaitTime = value;}
+
+	void StartTraining();
+
+	float GetWaitTime() { return WaitTime; }
+
+	bool GetIsTarget() { return bIsTarget; }
+
+	virtual void Tick(float DeltaTime) override;
+
+	
 
 private:
 	
@@ -46,11 +87,21 @@ private:
 	EGameState CurrentGameState = EGameState::NONE;
 
 	UFUNCTION()
-	void OnRep_GameState(const EGameState& OldGameState);
+	void OnRep_GameState();
 
 	TArray<AATCharacterBase*> Players;
 	
 	AAimTrainerGameModeBase* GameModeRef = nullptr;
 
 	virtual void BeginPlay() override;
+
+	int ActiveTargets = 0;
+
+	bool bIsTarget = false;
+
+	int MaxTargets = 5;
+
+	float SpawnWaitTime = 1.5f;
+	
+	float LastSpawnTime = 0.f;
 };

@@ -18,24 +18,10 @@ class AIMTRAINER_API AAimTrainerGameModeBase : public AGameModeBase
 public:
 	virtual void BeginPlay() override;
 
-	void SetWaitTime(float value) { WaitTime = value;}
-
-	float GetWaitTime() { return WaitTime; }
-
-	void PlayerEnteredLocker(AATCharacterBase* Player);
-
-	UFUNCTION(BlueprintCallable)
-	AATGameState* GetGameStateRef() { return GameState; }
-
-	UPROPERTY(BlueprintReadWrite)
-	TSubclassOf<AActor> SelectedTarget;
-
 
 private:
 	UPROPERTY()
 	TMap<APlayerController*, UATGameWidget*> GameWidgets;
-
-	float WaitTime;
 
 	UATGameInstance* GameInstance = nullptr;
 

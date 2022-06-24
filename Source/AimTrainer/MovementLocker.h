@@ -26,27 +26,12 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	UBoxComponent* BoxComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<AActor> TargetsToSpawn;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game Details")
-	float WaitTime = 3.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float GameDurationML = 5;
 	
 	UFUNCTION()
 	void StopInput(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
 		bool bFromSweep, const FHitResult& SweepResult);
 
 	FTimerHandle TimerHandle;
-
-	int MaxTargets = 5;
-
-	float SpawnWaitTime = 1.5f;
-	
-	float LastSpawnTime = 0.f;
 
 	AAimTrainerGameModeBase* GameModeRef;
 
@@ -55,7 +40,5 @@ protected:
 	UATGameInstance* GameInstance;
 	
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 };

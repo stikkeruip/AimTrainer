@@ -16,15 +16,4 @@ void AAimTrainerGameModeBase::BeginPlay()
 	GameState = Cast<AATGameState>(GetWorld()->GetGameState());
 }
 
-void AAimTrainerGameModeBase::PlayerEnteredLocker(AATCharacterBase* Player)
-{
-	FTimerHandle TimerHandle;
-	FTimerDelegate Delegate;
-	Delegate.BindUFunction(GameState, "SetCurrentGameState", EGameState::Playing);
-
-	GameState->SetCurrentGameState(EGameState::Countdown);
-	
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, Delegate, WaitTime, false);
-}
-
 
