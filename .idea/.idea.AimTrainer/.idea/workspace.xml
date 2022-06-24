@@ -16,6 +16,8 @@
     <setting file="file://$PROJECT_DIR$/../../../../../Program Files/Epic Games/UE_5.0/Engine/Source/Runtime/Core/Public/Delegates/DelegateInstancesImpl.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../../Program Files/Epic Games/UE_5.0/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectHandle.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../../Program Files/Epic Games/UE_5.0/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectPtr.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/AimTrainer/ATGameState.gen.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/Developer/RiderLink/Source/RD/thirdparty/spdlog/include/spdlog/common.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Plugins/Developer/RiderLink/Source/RD/thirdparty/spdlog/include/spdlog/logger.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Plugins/Developer/RiderLink/Source/RD/thirdparty/spdlog/include/spdlog/tweakme.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/AimTrainer/ATCharacterBase.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -30,9 +32,15 @@
     <setting file="file://$PROJECT_DIR$/Source/AimTrainer/AimTrainerGameModeBase.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/AimTrainer/AimTrainerGameModeBase.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/AimTrainer/MovementLocker.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/uipko/Documents/Unreal Projects/AimTrainer/Source/AimTrainer/MovementLocker.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/AimTrainer/MovementLocker.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/AimTrainer/TargetBase.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/AimTrainer/TargetBase.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/AimTrainer/gamestatetest.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/AimTrainer/gamestatetest.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -45,14 +53,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.50931674&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "XThreadsFramesViewSplitterKey": "0.50931674",
+    "settings.editor.selected.configurable": "CodeLensConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="C++ Project.AimTrainer">
     <configuration name="AimTrainer" type="CppProject" factoryName="C++ Project">
       <configuration_1>
@@ -236,6 +244,9 @@
       <workItem from="1656017090259" duration="2266000" />
       <workItem from="1656019438550" duration="10718000" />
       <workItem from="1656032721624" duration="5067000" />
+      <workItem from="1656075208830" duration="878000" />
+      <workItem from="1656106341014" duration="280000" />
+      <workItem from="1656106773356" duration="6950000" />
     </task>
     <servers />
   </component>

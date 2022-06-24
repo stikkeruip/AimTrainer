@@ -38,7 +38,4 @@ protected:
 	AATGameState* GameState;
 
 	UATGameInstance* GameInstance;
-	
-public:	
-
 };

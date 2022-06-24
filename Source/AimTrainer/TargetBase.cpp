@@ -3,6 +3,7 @@
 
 #include "TargetBase.h"
 
+#include "ATGameState.h"
 #include "EffectComponent.h"
 #include "PowerUpInterface.h"
 
@@ -20,6 +21,8 @@ ATargetBase::ATargetBase()
 void ATargetBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GameState = Cast<AATGameState>(GetWorld()->GetGameState());
 	
 }
 
@@ -31,6 +34,8 @@ void ATargetBase::OnHit(AActor* HitInstigator)
 	{
 		I->ApplyEffect(EffectType);
 	}
+
+	GameState->TargetHit();
 }
 
 // Called every frame

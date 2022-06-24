@@ -35,14 +35,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetCurrentGameState(EGameState State);
 
-	UFUNCTION(BlueprintCallable)
-	void AimRangeDone();
-
 	UFUNCTION(BlueprintImplementableEvent)
 	void RestartGame();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void RemoveMenu();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void CheckTargetSelected();
 	
 	UPROPERTY(BlueprintReadWrite)
 	TSubclassOf<AActor> SelectedTarget;
@@ -51,21 +51,14 @@ public:
 	bool bIsGamePlaying = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Game Details")
-	float WaitTime = 3.f;
+	float WaitTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float GameDurationML = 5;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<AActor> TargetsToSpawn;
+	float GameDurationML;
 
 	void AddPlayer(AATCharacterBase* Player);
 
 	void DisplayLocalCountdown();
-	
-	float GetActiveTargets() { return ActiveTargets; }
-
-	void AddTarget() { ActiveTargets++; }
 
 	void PlayerEnteredLocker(AATCharacterBase* Player);
 
@@ -77,9 +70,11 @@ public:
 
 	bool GetIsTarget() { return bIsTarget; }
 
-	virtual void Tick(float DeltaTime) override;
+	void AimRangeDone();
 
-	
+	void TargetHit() { ActiveTargets--; }
+
+	virtual void Tick(float DeltaTime) override;
 
 private:
 	
@@ -104,4 +99,8 @@ private:
 	float SpawnWaitTime = 1.5f;
 	
 	float LastSpawnTime = 0.f;
+
+	int NumPlayers;
+
+	int PlayersReady = 0;
 };

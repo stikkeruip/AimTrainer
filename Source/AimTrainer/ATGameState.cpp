@@ -11,7 +11,7 @@
 
 AATGameState::AATGameState()
 {
-	PrimaryActorTick.bCanEverTick = true;
+    PrimaryActorTick.bCanEverTick = true;
 }
 
 void AATGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -32,23 +32,28 @@ void AATGameState::BeginPlay()
 	CurrentGameState = EGameState::Waiting;
 
 	GameModeRef = Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode());
+
+	NumPlayers = GetWorld()->GetNumPlayerControllers();
 }
 
 void AATGameState::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(GetActiveTargets() < MaxTargets)
+	if(GetWorld() && GetWorld()->GetTimeSeconds() - LastSpawnTime > SpawnWaitTime)
 	{
-		float xy = FMath::RandRange(-1500, 3000);
-		float z = FMath::RandRange(200, 1500);
-		FVector Position = FVector(xy, xy, z);
-		FRotator Rotation = FRotator(0.f, 0.f, 0.f);
-	
-		GetWorld()->SpawnActor(SelectedTarget, &Position, &Rotation);
+		if(ActiveTargets < MaxTargets)
+		{
+			float xy = FMath::RandRange(-1500, 3000);
+			float z = FMath::RandRange(200, 1500);
+			FVector Position = FVector(xy, xy, z);
+			FRotator Rotation = FRotator(0.f, 0.f, 0.f);
+		
+			GetWorld()->SpawnActor(SelectedTarget, &Position, &Rotation);
 
-		LastSpawnTime = GetWorld()->GetTimeSeconds();
-		AddTarget();
+			LastSpawnTime = GetWorld()->GetTimeSeconds();
+			ActiveTargets++;
+		}
 	}
 }
 
@@ -79,7 +84,6 @@ void AATGameState::SetCurrentGameState(EGameState State)
 
 void AATGameState::AimRangeDone()
 {
-
 	AATPlayerController* PC = Cast<AATPlayerController>(GetWorld()->GetFirstPlayerController());
 	if(!PC)
 		return;
@@ -99,8 +103,7 @@ void AATGameState::AimRangeDone()
 			PC->SetShowMouseCursor(true);
 		}
 	}
-
-	CurrentGameState = EGameState::GameOver;
+	bIsGamePlaying = false;
 }
 
 void AATGameState::AddPlayer(AATCharacterBase* Player)
@@ -119,20 +122,24 @@ void AATGameState::AddPlayer(AATCharacterBase* Player)
 
 void AATGameState::PlayerEnteredLocker(AATCharacterBase* Player)
 {
+	PlayersReady++;
+	
 	FTimerHandle TimerHandle;
 	FTimerDelegate Delegate;
 	Delegate.BindUFunction(this, "SetCurrentGameState", EGameState::Playing);
 
-	SetCurrentGameState(EGameState::Countdown);
-	
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, Delegate, WaitTime, false);
+	if(PlayersReady == NumPlayers)
+	{
+		SetCurrentGameState(EGameState::Countdown);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, Delegate, WaitTime, false);
+	}
 }
 
 void AATGameState::StartTraining()
 {
 	bIsGamePlaying = true;
 
-	bIsTarget = SelectedTarget ? true : false;
+	CheckTargetSelected();
 }
 
 void AATGameState::OnRep_GameState()
@@ -153,6 +160,10 @@ void AATGameState::OnRep_GameState()
 
 		case EGameState::Playing:
 			StartTraining();
+			break;
+
+		case EGameState::GameOver:
+			AimRangeDone();
 			break;
 			
 		default:

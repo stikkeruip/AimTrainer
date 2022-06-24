@@ -8,6 +8,7 @@
 #include "GameFramework/Actor.h"
 #include "TargetBase.generated.h"
 
+class AATGameState;
 UCLASS()
 class AIMTRAINER_API ATargetBase : public AActor, public ITargetHitInterface
 {
@@ -28,6 +29,8 @@ protected:
 	EEffectType EffectType = EEffectType::NONE;
 
 	void OnHit(AActor* HitInstigator) override;
+
+	AATGameState* GameState = nullptr;
 
 public:	
 	// Called every frame

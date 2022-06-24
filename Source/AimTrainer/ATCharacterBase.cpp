@@ -3,10 +3,8 @@
 
 #include "ATCharacterBase.h"
 
-#include "AimTrainerGameModeBase.h"
 #include "GunBase.h"
 #include "MenuButton.h"
-#include "MovementLocker.h"
 #include "TargetBase.h"
 #include "Net/UnrealNetwork.h"
 
@@ -61,7 +59,6 @@ void AATCharacterBase::Shoot()
 	if(I)
 	{
 		I->OnHit(this);
-		//GameModeRef->ActiveTargets--;
 		return;
 	}
 
