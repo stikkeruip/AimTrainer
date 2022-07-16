@@ -3,6 +3,8 @@
 
 #include "GunBase.h"
 
+#include "ATCharacterBase.h"
+
 // Sets default values
 AGunBase::AGunBase()
 {
@@ -26,5 +28,31 @@ void AGunBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AGunBase::Reload()
+{
+	CurrentBullets = MaxBullets;
+}
+
+AActor* AGunBase::Shoot()
+{
+	if(OwningCharacter->bIsReloading || OwningCharacter->bIsSwitching || CurrentBullets == 0)
+		return nullptr;
+
+	FHitResult HitResult;
+	FCollisionQueryParams TraceParams;
+	
+	FVector LineStart = OwningCharacter->GetCameraLocation() + OwningCharacter->GetCameraForward() * 50;
+	FVector LineEnd = LineStart + OwningCharacter->GetCameraRotation().Vector() * 8000.0f;
+
+	GetWorld()->LineTraceSingleByChannel(HitResult, LineStart, LineEnd, ECC_Pawn, TraceParams);
+
+	CurrentBullets--;
+	
+	if(HitResult.GetActor())
+		return HitResult.GetActor();
+
+	return nullptr;
 }
 

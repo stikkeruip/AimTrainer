@@ -29,11 +29,7 @@ void AATGameState::BeginPlay()
 {
 	Super::BeginPlay();
 
-	CurrentGameState = EGameState::Waiting;
-
 	GameModeRef = Cast<AAimTrainerGameModeBase>(GetWorld()->GetAuthGameMode());
-
-	NumPlayers = GetWorld()->GetNumPlayerControllers();
 }
 
 void AATGameState::Tick(float DeltaTime)
@@ -84,6 +80,19 @@ void AATGameState::SetCurrentGameState(EGameState State)
 
 void AATGameState::AimRangeDone()
 {
+	if(TargetsMissed == 0 && TargetsHit > 0)
+	{
+		AccPercent = 1.;
+	}
+	if(TargetsMissed == 0 && TargetsHit == 0)
+	{
+		AccPercent = 0.;
+	}
+	else
+	{
+		AccPercent = TargetsMissed / (TargetsHit + TargetsMissed);
+	}
+	
 	AATPlayerController* PC = Cast<AATPlayerController>(GetWorld()->GetFirstPlayerController());
 	if(!PC)
 		return;
@@ -122,6 +131,9 @@ void AATGameState::AddPlayer(AATCharacterBase* Player)
 
 void AATGameState::PlayerEnteredLocker(AATCharacterBase* Player)
 {
+	if(!HasAuthority())
+		return;
+	
 	PlayersReady++;
 	
 	FTimerHandle TimerHandle;

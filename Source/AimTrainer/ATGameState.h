@@ -72,10 +72,25 @@ public:
 
 	void AimRangeDone();
 
-	void TargetHit() { ActiveTargets--; }
+	void TargetHit() { ActiveTargets--; TargetsHit++; }
+
+	void TargetMissed() { TargetsMissed++; }
 
 	virtual void Tick(float DeltaTime) override;
+protected:
+	
+	UPROPERTY(BlueprintReadWrite)
+	int NumPlayers = 0;
 
+	UPROPERTY(BlueprintReadOnly)
+	int TargetsHit = 0;
+
+	UPROPERTY(BlueprintReadOnly)
+	int TargetsMissed = 0;
+
+	UPROPERTY(BlueprintReadOnly)
+	float AccPercent = 0.;
+	
 private:
 	
 	UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_GameState, Category = "States")
@@ -99,8 +114,6 @@ private:
 	float SpawnWaitTime = 1.5f;
 	
 	float LastSpawnTime = 0.f;
-
-	int NumPlayers;
 
 	int PlayersReady = 0;
 };

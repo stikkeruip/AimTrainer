@@ -32,9 +32,13 @@ protected:
 
 	void OnJumpAction();
 
+	void Reload();
+
 	void Shoot();
 
 	void StopShoot();
+
+	void SwitchWeapon();
 
 	void MoveForward(float value);
 	
@@ -52,7 +56,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Look", BlueprintReadWrite)
 	float BaseLookPitchRate = 90.0f;
 
-	AAimTrainerGameModeBase* GameModeRef;
+	AAimTrainerGameModeBase* GameModeRef = nullptr;
 	
 	UPROPERTY(Replicated)
 	AATCharacterBase* CharacterBase = nullptr;

@@ -8,6 +8,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "ATCharacterBase.generated.h"
 
+class AATGameState;
 class AAimTrainerGameModeBase; class AMovementLocker; class AGunBase;
 UCLASS()
 class AIMTRAINER_API AATCharacterBase : public ACharacter
@@ -27,6 +28,8 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UCameraComponent* CameraComponent;
+
+	AATGameState* GameState = nullptr;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void GunShot();
@@ -57,10 +60,21 @@ public:
 
 	void Shoot();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void SwitchWeapon();
+
+	void Reload();
+
 	bool GetLookLock() { return bIsLookLock; }
 
 	UPROPERTY(BlueprintReadWrite)
 	AGunBase* GunBaseRef;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsReloading = false;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsSwitching = false;
 
 	void SetLookLock(bool value) { bIsLookLock = value; }
 

@@ -37,6 +37,8 @@ void AATPlayerController::BeginPlay()
 	if (InputComponent)
 	{
 		InputComponent->BindAction("Jump", EInputEvent::IE_Pressed, this, &AATPlayerController::OnJumpAction);
+		InputComponent->BindAction("Reload", EInputEvent::IE_Pressed, this, &AATPlayerController::Reload);
+		InputComponent->BindAction("SwitchWeapon", EInputEvent::IE_Pressed, this, &AATPlayerController::SwitchWeapon);
 		InputComponent->BindAction("Shoot", EInputEvent::IE_Pressed, this, &AATPlayerController::Shoot);
 		InputComponent->BindAction("Shoot", EInputEvent::IE_Released, this, &AATPlayerController::StopShoot);
 		InputComponent->BindAxis("Forward", this, &AATPlayerController::MoveForward);
@@ -54,6 +56,11 @@ void AATPlayerController::OnJumpAction()
 	}
 }
 
+void AATPlayerController::Reload()
+{
+	CharacterBase->Reload();
+}
+
 void AATPlayerController::Shoot()
 {
 	GetWorldTimerManager().SetTimer(TimerHandle, CharacterBase, &AATCharacterBase::Shoot, 0.2, true, 0.);
@@ -62,6 +69,11 @@ void AATPlayerController::Shoot()
 void AATPlayerController::StopShoot()
 {
 	GetWorldTimerManager().ClearTimer(TimerHandle);
+}
+
+void AATPlayerController::SwitchWeapon()
+{
+	CharacterBase->SwitchWeapon();
 }
 
 void AATPlayerController::MoveForward(float value)

@@ -3,6 +3,7 @@
 
 #include "ATCharacterBase.h"
 
+#include "ATGameState.h"
 #include "GunBase.h"
 #include "MenuButton.h"
 #include "TargetBase.h"
@@ -26,6 +27,8 @@ AATCharacterBase::AATCharacterBase()
 void AATCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GameState = Cast<AATGameState>(GetWorld()->GetGameState());
 }
 
 // Called every frame
@@ -42,18 +45,10 @@ void AATCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void AATCharacterBase::Shoot()
 {
-	FHitResult HitResult;
-	FCollisionQueryParams TraceParams;
-	
-	FVector LineStart = GetCameraLocation() + GetCameraForward() * 50;
-	FVector LineEnd = LineStart + GetCameraRotation().Vector() * 8000.0f;
-
-	GetWorld()->LineTraceSingleByChannel(HitResult, LineStart, LineEnd, ECC_Pawn, TraceParams);
-
-	HitActor = HitResult.GetActor();
+	HitActor = GunBaseRef->Shoot();
 
 	GunShot();
-	
+
 	ITargetHitInterface* I = Cast<ITargetHitInterface>(HitActor);
 	
 	if(I)
@@ -66,8 +61,23 @@ void AATCharacterBase::Shoot()
 	if(M)
 	{
 		M->OnHit(this);
+		return;
 	}
+
+	if(GameState->GetCurrentGameState() == EGameState::Playing)
+		GameState->TargetMissed();
+	
 }
+
+void AATCharacterBase::Reload()
+{
+	if(bIsSwitching)
+		return;
+	
+	bIsReloading = true;
+	GunBaseRef->Reload();
+}
+
 
 void AATCharacterBase::SetDamage(bool value)
 {

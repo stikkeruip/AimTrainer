@@ -39,13 +39,28 @@ void AMovementLocker::BeginPlay()
 void AMovementLocker::StopInput(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if(!HasAuthority())
+	bool bIsAuthority = HasAuthority();
+	
+	ACharacter* Character = Cast<ACharacter>(OtherActor);
+	
+	if(!Character)
+		return;
+	
+	bool bIsLocallyControlled = Character->IsLocallyControlled();
+	
+	if(!bIsAuthority && !bIsLocallyControlled)
 		return;
 	
 	if(auto* CharacterBase = Cast<AATCharacterBase>(OtherActor))
 	{
-		CharacterBase->SetInputLocked(true);
-		GameState->PlayerEnteredLocker(CharacterBase);
+		if(bIsLocallyControlled)
+		{
+			CharacterBase->SetInputLocked(true);
+		}
+		if(bIsAuthority)
+		{
+			GameState->PlayerEnteredLocker(CharacterBase);	
+		}
 	}
 }
 

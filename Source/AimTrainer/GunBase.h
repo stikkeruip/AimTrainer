@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "GunBase.generated.h"
 
+class AATCharacterBase;
 UCLASS()
 class AIMTRAINER_API AGunBase : public AActor
 {
@@ -25,10 +26,21 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UParticleSystem* GunBlast;
 
+	UPROPERTY(BlueprintReadWrite)
+	AATCharacterBase* OwningCharacter;
+
+	const int MaxBullets = 30;
+	
+	int CurrentBullets = 30;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(BlueprintReadWrite)
 	float Damage = 50.;
+
+	void Reload();
+
+	AActor* Shoot();
 };
